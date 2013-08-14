@@ -38,3 +38,11 @@ pnSender = ApplePushNotificationSender(certfile)
 pnSender.environment = 'sandbox'
 pnSender.pushNotifications = pushNotifications
 pnSender.sendPushNotifications()
+
+absTokens = pnSender.getAbsoleteDeviceTokens()
+print absTokens
+for aTuple in absTokens:
+    timeinterval = aTuple[0]
+    deviceToken = aTuple[1]
+    timestamp = datetime.fromtimestamp(timeinterval)
+    print "timestampt: %s; token: %s" % (timestamp, deviceToken,)

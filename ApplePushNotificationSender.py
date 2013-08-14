@@ -2,6 +2,7 @@
 
 import socket, ssl, struct, sys, binascii
 from ApplePushNotification import ApplePushNotification 
+import select
 
 class ApplePushNotificationSender(object):
     """An object encapsulating the details that are required for sending
@@ -64,7 +65,7 @@ class ApplePushNotificationSender(object):
             # Write out our data
             ssl_sock.write( aPushNotification.sendable)
             
-            # ideally thr return value from the write action should be
+            # ideally the return value from the write action should be
             # obtained here. When we get an error-packet, the connection
             # is closed by Apple and all subsequent push messages will
             # end up not reaching APNS (thus failing without us knowing!).
@@ -73,7 +74,6 @@ class ApplePushNotificationSender(object):
             # If you know how to read out the socket, please do, and use
             # these Apple docs to find out the detais:
             # http://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/CommunicatingWIthAPS.html#//apple_ref/doc/uid/TP40008194-CH101-SW4
-            
             
         # Close the connection, our push messages have been sent
         ssl_sock.close()
