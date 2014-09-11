@@ -9,11 +9,19 @@ class ApplePushNotification (object):
     'sendable'."""
     
     def __init__(self):
+        self._contentAvailable = False
+        self._isSilent = False
         self._message = ''
         self._badgeCount = 0
         self._soundName = 'default'
         self._deviceToken = None
         self._customData = {}
+    
+    def setContentAvailable(self, flag = False):
+        self._contentAvailable = flag
+    
+    def setSilent(self, flag = False):
+        self._isSilent = flag
     
     def setMessage(self, message = ''):
         self._message = message;
@@ -51,6 +59,17 @@ class ApplePushNotification (object):
                 "sound" : self.soundName
             }
         }
+        
+        if self._isSilent:
+            payloadAsDictionary = {
+                        "aps" : {
+                            "content-available" : 0}
+                        }
+            
+        if self._contentAvailable:
+            payloadAsDictionary["aps"]["content-available"] = 1
+        else: 
+            payloadAsDictionary["aps"]["content-available"] = 0
         
         # add any custom data we might have
         for aKey in self._customData:
